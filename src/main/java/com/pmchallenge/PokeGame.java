@@ -47,13 +47,7 @@ public class PokeGame {
         commands.stream()
                 .map(this::evalInput)
                 .toList()
-                .forEach(next_square -> {
-                    if (hasPokemon(next_square)) {
-                        pokemonCount++;
-                        empty_squares.add(next_square);
-                    }
-                    current_square = next_square;
-                });
+                .forEach(this::updateCount);
 
         System.out.println(pokemonCount);
 
@@ -84,5 +78,13 @@ public class PokeGame {
 
         boolean squareIsEmpty = empty_squares.stream().anyMatch(square -> Arrays.equals(square, next_square));
         return !squareIsEmpty;
+    }
+
+    void updateCount(BigInteger[] next_square) {
+        if (hasPokemon(next_square)) {
+            pokemonCount++;
+            empty_squares.add(next_square);
+        }
+        current_square = next_square;
     }
 }

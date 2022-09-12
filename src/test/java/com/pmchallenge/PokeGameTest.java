@@ -42,7 +42,7 @@ class PokeGameTest {
     void shouldEvaluateInputAndUpdateNextPosition() throws IOException {
 
         // given
-        String testInput = "NNES";
+        String testInput = "NNOO";
         ByteArrayInputStream stream = new ByteArrayInputStream(testInput.getBytes());
         System.setIn(stream);
         List<Character> commands = pokeGame.convertInput();
@@ -54,8 +54,8 @@ class PokeGameTest {
         pokeGame.evalInput(commands.get(3));
 
         // then
-        assertThat(pokeGame.next_square_x).isEqualTo(1);
-        assertThat(pokeGame.next_square_y).isEqualTo(1);
+        assertThat(pokeGame.next_square_x).isEqualTo(-2);
+        assertThat(pokeGame.next_square_y).isEqualTo(2);
 
     }
 
@@ -80,7 +80,7 @@ class PokeGameTest {
     void shouldReturnPokemonCount() throws IOException {
 
         // given
-        String testInput = "NESO";
+        String testInput = "NNESOOSE";
         ByteArrayInputStream stream = new ByteArrayInputStream(testInput.getBytes());
         System.setIn(stream);
 
@@ -88,6 +88,6 @@ class PokeGameTest {
         pokeGame.run();
 
         // then
-        assertThat(pokeGame.pokemonCount).isEqualTo(4);
+        assertThat(pokeGame.pokemonCount).isEqualTo(7);
     }
 }
