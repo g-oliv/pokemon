@@ -48,11 +48,12 @@ public class PokeGame {
     }
 
     List<Character> convertInput() throws IOException {
+
         System.out.println("Provide sequence of movements: ");
         BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
         String input = inputReader.readLine().toUpperCase();
-        List<Character> letters = input.chars().mapToObj(ch -> (char) ch).toList();
-        return letters;
+
+        return input.chars().mapToObj(ch -> (char) ch).toList();
     }
 
     BigInteger[] evalInput(Character command) {
