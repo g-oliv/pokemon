@@ -17,24 +17,18 @@ import java.util.Set;
 @Setter
 public class PokeGame {
 
-    BigInteger current_square_x;
-    BigInteger current_square_y;
-
-    BigInteger next_square_x;
-    BigInteger next_square_y;
-
-    BigInteger[] current_square;
-    Set<BigInteger[]> empty_squares = new HashSet<>();
-
-    Integer pokemonCount;
+    private BigInteger next_square_x;
+    private BigInteger next_square_y;
+    private BigInteger[] current_square;
+    private Set<BigInteger[]> empty_squares = new HashSet<>();
+    private Integer pokemonCount;
 
     public PokeGame() {
-        current_square_x = BigInteger.valueOf(0);
-        current_square_y = BigInteger.valueOf(0);
+
         next_square_x = BigInteger.valueOf(0);
         next_square_y = BigInteger.valueOf(0);
 
-        current_square = new BigInteger[]{current_square_x, current_square_y};
+        current_square = new BigInteger[]{next_square_x, next_square_y};
         empty_squares.add(current_square);
 
         pokemonCount = 1;
@@ -70,21 +64,20 @@ public class PokeGame {
             case 'O' -> next_square_x = next_square_x.subtract(BigInteger.valueOf(1));
         }
 
-        BigInteger[] next_square = new BigInteger[]{next_square_x, next_square_y};
-        return next_square;
+        return new BigInteger[]{next_square_x, next_square_y};
     }
 
-    boolean hasPokemon(BigInteger[] next_square) {
+    boolean hasPokemon(BigInteger[] square) {
 
-        boolean squareIsEmpty = empty_squares.stream().anyMatch(square -> Arrays.equals(square, next_square));
+        boolean squareIsEmpty = empty_squares.stream().anyMatch(empty_sq -> Arrays.equals(empty_sq, square));
         return !squareIsEmpty;
     }
 
-    void updateCount(BigInteger[] next_square) {
-        if (hasPokemon(next_square)) {
+    void updateCount(BigInteger[] square) {
+        if (hasPokemon(square)) {
             pokemonCount++;
-            empty_squares.add(next_square);
+            empty_squares.add(square);
         }
-        current_square = next_square;
+        current_square = square;
     }
 }

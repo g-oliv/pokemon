@@ -54,8 +54,8 @@ class PokeGameTest {
         pokeGame.evalInput(commands.get(3));
 
         // then
-        assertThat(pokeGame.next_square_x).isEqualTo(-2);
-        assertThat(pokeGame.next_square_y).isEqualTo(2);
+        assertThat(pokeGame.getNext_square_x()).isEqualTo(-2);
+        assertThat(pokeGame.getNext_square_y()).isEqualTo(2);
 
     }
 
@@ -88,6 +88,6 @@ class PokeGameTest {
         pokeGame.run();
 
         // then
-        assertThat(pokeGame.pokemonCount).isEqualTo(7);
+        assertThat(pokeGame.getPokemonCount()).isEqualTo(7);
     }
 }
