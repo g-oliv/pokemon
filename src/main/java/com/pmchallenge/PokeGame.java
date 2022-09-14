@@ -21,7 +21,6 @@ public class PokeGame {
     private BigInteger next_square_y;
     private BigInteger[] current_square;
     private Set<BigInteger[]> empty_squares = new HashSet<>();
-    private Integer pokemonCount;
 
     public PokeGame() {
 
@@ -31,19 +30,18 @@ public class PokeGame {
         current_square = new BigInteger[]{next_square_x, next_square_y};
         empty_squares.add(current_square);
 
-        pokemonCount = 1;
     }
 
     public void run() throws IOException {
 
-        List<Character> commands = convertInput();
+        List<Character> movementsSequence = convertInput();
 
-        commands.stream()
+        movementsSequence.stream()
                 .map(this::evalInput)
                 .toList()
                 .forEach(this::updateCount);
 
-        System.out.println(pokemonCount);
+        System.out.println(empty_squares.size());
 
     }
 
@@ -76,7 +74,6 @@ public class PokeGame {
 
     void updateCount(BigInteger[] square) {
         if (hasPokemon(square)) {
-            pokemonCount++;
             empty_squares.add(square);
         }
         current_square = square;

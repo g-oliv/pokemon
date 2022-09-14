@@ -88,6 +88,6 @@ class PokeGameTest {
         pokeGame.run();
 
         // then
-        assertThat(pokeGame.getPokemonCount()).isEqualTo(7);
+        assertThat(pokeGame.getEmpty_squares().size()).isEqualTo(7);
     }
 }

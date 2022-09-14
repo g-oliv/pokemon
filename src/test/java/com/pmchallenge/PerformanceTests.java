@@ -40,9 +40,8 @@ public class PerformanceTests {
             elapsed = watch.getTotalTimeMillis();
             units = "millis";
         }
+
         System.out.println("Total execution time: " + elapsed + units);
-
-
 
     }
 }
