@@ -20,9 +20,7 @@ public class PerformanceTests {
     public void testComputeTimeForInputSize () throws IOException {
 
         // verifies compute time based on input size - O(n) as expected
-        StringBuffer strIn = new StringBuffer();
-        strIn.append("N".repeat(100000));
-        ByteArrayInputStream stream = new ByteArrayInputStream(strIn.toString().getBytes());
+        ByteArrayInputStream stream = new ByteArrayInputStream("N".repeat(100000).getBytes());
         System.setIn(stream);
 
         StopWatch watch = new StopWatch();
