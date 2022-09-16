@@ -11,9 +11,15 @@ ___
 To run the app: 
 1. Clone the repo. 
 2. Open the terminal in the root folder of the project
-3. Run the command
+3. Run the command for Unix
 ```
 ./mvnw exec:java -Dexec.mainClass="com.pmchallenge.App"
 ```
+ or
+```
+./mvnw.cmd exec:java -Dexec.mainClass="com.pmchallenge.App"
+```
+for Windows
+
 #### Requiremnts
 Java 17.0.2
