@@ -8,10 +8,12 @@ Given an input with the sequence of movements, how many Pokémon does Ash catch?
 
 ___
 ### Run the app
-To run the app: 
+
 1. Clone the repo. 
 2. Open the terminal in the root folder of the project
-3. Run the command for Unix
+3. Run the command: 
+
+for Unix
 ```
 ./mvnw clean install -DskipTests
 ./mvnw exec:java -Dexec.mainClass="com.pmchallenge.App"
