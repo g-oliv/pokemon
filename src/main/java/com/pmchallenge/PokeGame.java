@@ -1,6 +1,7 @@
 package com.pmchallenge;
 
 
+import com.pmchallenge.exception.InvalidInputException;
 import com.pmchallenge.grid.Grid;
 import com.pmchallenge.grid.Moves;
 import com.pmchallenge.grid.Panel;
@@ -74,6 +75,7 @@ public class PokeGame {
             case "S" -> next_square_y--;
             case "E" -> next_square_x++;
             case "O" -> next_square_x--;
+            default -> throw new InvalidInputException("Movement not recognized");
         }
 
         current_square = new Square(next_square_x, next_square_y);

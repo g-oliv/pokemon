@@ -1,5 +1,6 @@
 package com.pmchallenge;
 
+import com.pmchallenge.exception.InvalidInputException;
 import com.pmchallenge.grid.Moves;
 import com.pmchallenge.grid.Panel;
 import com.pmchallenge.grid.Square;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PokeGameTest {
 
@@ -39,6 +41,25 @@ class PokeGameTest {
 
         assertThat(result).isEqualTo(expected);
 
+    }
+
+    @Test
+    void shouldThrowExceptionWhenIncorrectInput() throws IOException {
+
+        // given
+        String testInput = "NP";
+        ByteArrayInputStream stream = new ByteArrayInputStream(testInput.getBytes());
+        System.setIn(stream);
+
+        // when
+        List<String> result = pokeGame.convertInput();
+        System.out.println(result);
+        Exception exception = assertThrows(InvalidInputException.class, () -> result.forEach(s -> pokeGame.evaluateMove(s)));
+        // then
+        String expectedMessage = "Movement not recognized";
+        String actualMessage = exception.getMessage();
+
+        assertThat(actualMessage).contains(expectedMessage);
     }
 
     @Test
@@ -168,7 +189,6 @@ class PokeGameTest {
         // then
         assertThat(result).isEqualTo(401);
     }
-
 
 
 }
