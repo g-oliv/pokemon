@@ -13,10 +13,12 @@ To run the app:
 2. Open the terminal in the root folder of the project
 3. Run the command for Unix
 ```
+./mvnw clean install -DskipTests
 ./mvnw exec:java -Dexec.mainClass="com.pmchallenge.App"
 ```
  or for Windows
 ```
+./mvnw.cmd clean install -DskipTests
 ./mvnw.cmd exec:java -Dexec.mainClass="com.pmchallenge.App"
 ```
 
