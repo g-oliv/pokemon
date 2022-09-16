@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Square {
 
-    private byte x;
-    private byte y;
+    private int x;
+    private int y;
 
 }

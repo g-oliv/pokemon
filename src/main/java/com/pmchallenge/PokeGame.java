@@ -1,6 +1,7 @@
 package com.pmchallenge;
 
 
+import com.pmchallenge.exception.InvalidInputException;
 import com.pmchallenge.grid.Grid;
 import com.pmchallenge.grid.Moves;
 import com.pmchallenge.grid.Panel;
@@ -21,8 +22,8 @@ public class PokeGame {
 
     private static final List<String> OPPOSITE_DIR_Y = List.of("N", "S");
     private static final List<String> OPPOSITE_DIR_X = List.of("E", "O");
-    private byte next_square_x;
-    private byte next_square_y;
+    private int next_square_x;
+    private int next_square_y;
     private Grid grid;
     private Panel current_panel;
     private Square current_square;
@@ -42,15 +43,15 @@ public class PokeGame {
 
     }
 
-    public int run() throws IOException {
+    public long run() throws IOException {
 
         List<String> movementsSequence = convertInput();
 
         movementsSequence.forEach(this::evaluateMove);
-        int result = grid.getGridMap()
-                         .stream()
-                         .mapToInt(panel -> panel.getEmpty_squares().size())
-                         .sum();
+        long result = grid.getGridMap()
+                          .stream()
+                          .mapToLong(panel -> panel.getEmpty_squares().size())
+                          .sum();
 
         System.out.println(result);
         return result;
@@ -74,6 +75,7 @@ public class PokeGame {
             case "S" -> next_square_y--;
             case "E" -> next_square_x++;
             case "O" -> next_square_x--;
+            default -> throw new InvalidInputException("Movement not recognized");
         }
 
         current_square = new Square(next_square_x, next_square_y);
@@ -120,15 +122,15 @@ public class PokeGame {
     List<Moves> edgeCases() {
         List<Moves> edge = new ArrayList<>();
 
-        if (current_square.getY() == Byte.MAX_VALUE) {
+        if (current_square.getY() == Integer.MAX_VALUE) {
             edge.add(Moves.N);
-        } else if (current_square.getY() == Byte.MIN_VALUE) {
+        } else if (current_square.getY() == Integer.MIN_VALUE) {
             edge.add(Moves.S);
         }
 
-        if (current_square.getX() == Byte.MAX_VALUE) {
+        if (current_square.getX() == Integer.MAX_VALUE) {
             edge.add(Moves.E);
-        } else if (current_square.getX() == Byte.MIN_VALUE) {
+        } else if (current_square.getX() == Integer.MIN_VALUE) {
             edge.add(Moves.O);
         }
 
