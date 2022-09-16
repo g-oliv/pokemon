@@ -15,11 +15,10 @@ To run the app:
 ```
 ./mvnw exec:java -Dexec.mainClass="com.pmchallenge.App"
 ```
- or
+ or for Windows
 ```
 ./mvnw.cmd exec:java -Dexec.mainClass="com.pmchallenge.App"
 ```
-for Windows
 
 #### Requiremnts
 Java 17.0.2
