@@ -57,8 +57,8 @@ class PokeGameTest {
         pokeGame.evaluateMove(commands.get(3));
 
         // then
-        assertThat(pokeGame.getNext_square_x()).isEqualTo((byte) -2);
-        assertThat(pokeGame.getNext_square_y()).isEqualTo((byte) 2);
+        assertThat(pokeGame.getNext_square_x()).isEqualTo( -2);
+        assertThat(pokeGame.getNext_square_y()).isEqualTo(2);
 
     }
 
@@ -67,8 +67,8 @@ class PokeGameTest {
 
         // given
         String move = "N";
-        byte x = (byte) 127;
-        byte y = (byte) 127;
+        int x = Integer.MAX_VALUE;
+        int y = Integer.MAX_VALUE;
         pokeGame.setNext_square_x(x);
         pokeGame.setNext_square_y(y);
         pokeGame.setCurrent_square(new Square(x, y));
@@ -84,15 +84,15 @@ class PokeGameTest {
     void testUpdateGridWhenNeighbourNotExists() {
 
         // given
-        byte x = (byte) 0;
-        byte y = (byte) 127;
+        int x = 0;
+        int y = Integer.MAX_VALUE;
         String move = "N";
-        Square csqr = new Square(x, y);
+        Square cSqr = new Square(x, y);
         Panel pan = new Panel();
         pokeGame.setCurrent_panel(pan);
         pokeGame.setNext_square_x(x);
         pokeGame.setNext_square_y(y);
-        pokeGame.setCurrent_square(csqr);
+        pokeGame.setCurrent_square(cSqr);
 
 
         // when
@@ -102,8 +102,8 @@ class PokeGameTest {
         assertThat(pokeGame.getCurrent_panel().getNeighbouringPanels().size()).isEqualTo(1);
         assertThat(pokeGame.getGrid().getGridMap().size()).isEqualTo(2);
         assertThat(pokeGame.getCurrent_panel().getNeighbouringPanels()).contains(entry(Moves.S.ordinal(), pan));
-        assertThat(pokeGame.getCurrent_square()).isEqualTo(new Square((byte) 0, (byte) -128));
-        assertThat(pokeGame.getCurrent_panel().getEmpty_squares()).contains(new Square((byte) 0, (byte) -128));
+        assertThat(pokeGame.getCurrent_square()).isEqualTo(new Square(0, Integer.MIN_VALUE));
+        assertThat(pokeGame.getCurrent_panel().getEmpty_squares()).contains(new Square( 0, Integer.MIN_VALUE));
 
     }
 
@@ -111,10 +111,10 @@ class PokeGameTest {
     void testUpdateGridWhenNeighbourExists() {
 
         // given
-        byte x = (byte) 0;
-        byte y = (byte) 127;
+        int x = 0;
+        int y = Integer.MAX_VALUE;
         String move = "N";
-        Square csqr = new Square(x, y);
+        Square cSqr = new Square(x, y);
         Panel pan1 = new Panel();
         Panel pan2 = new Panel();
         pan1.getNeighbouringPanels().put(0, pan2);
@@ -123,7 +123,7 @@ class PokeGameTest {
         pokeGame.setCurrent_panel(pan1);
         pokeGame.setNext_square_x(x);
         pokeGame.setNext_square_y(y);
-        pokeGame.setCurrent_square(csqr);
+        pokeGame.setCurrent_square(cSqr);
 
 
         // when
@@ -133,8 +133,8 @@ class PokeGameTest {
         assertThat(pokeGame.getCurrent_panel().getNeighbouringPanels().size()).isEqualTo(1);
         assertThat(pokeGame.getGrid().getGridMap().size()).isEqualTo(2);
         assertThat(pokeGame.getCurrent_panel().getNeighbouringPanels()).contains(entry(Moves.S.ordinal(), pan1));
-        assertThat(pokeGame.getCurrent_square()).isEqualTo(new Square((byte) 0, (byte) -128));
-        assertThat(pokeGame.getCurrent_panel().getEmpty_squares()).contains(new Square((byte) 0, (byte) -128));
+        assertThat(pokeGame.getCurrent_square()).isEqualTo(new Square(0,  Integer.MIN_VALUE));
+        assertThat(pokeGame.getCurrent_panel().getEmpty_squares()).contains(new Square(0,  Integer.MIN_VALUE));
 
     }
 
@@ -157,15 +157,16 @@ class PokeGameTest {
     void shouldReturnPokemonCountForMultiplePanels() throws IOException {
 
         // given
-        String testInput = "N".repeat(200) + "E".repeat(200) + "S".repeat(200) + "O".repeat(200);
+        String testInput = "N".repeat(200) + "E".repeat(200);
         ByteArrayInputStream stream = new ByteArrayInputStream(testInput.getBytes());
         System.setIn(stream);
+        pokeGame.setCurrent_square(new Square(Integer.MAX_VALUE, Integer.MAX_VALUE));
 
         // when
-        int result = pokeGame.run();
+        long result = pokeGame.run();
 
         // then
-        assertThat(result).isEqualTo(801);
+        assertThat(result).isEqualTo(401);
     }
 
 

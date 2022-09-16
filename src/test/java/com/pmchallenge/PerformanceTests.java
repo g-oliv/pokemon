@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class PerformanceTests {
 
