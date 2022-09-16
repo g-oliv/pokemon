@@ -78,8 +78,8 @@ class PokeGameTest {
         pokeGame.evaluateMove(commands.get(3));
 
         // then
-        assertThat(pokeGame.getNext_square_x()).isEqualTo( -2);
-        assertThat(pokeGame.getNext_square_y()).isEqualTo(2);
+        assertThat(pokeGame.getNextSquareX()).isEqualTo(-2);
+        assertThat(pokeGame.getNextSquareY()).isEqualTo(2);
 
     }
 
@@ -90,9 +90,9 @@ class PokeGameTest {
         String move = "N";
         int x = Integer.MAX_VALUE;
         int y = Integer.MAX_VALUE;
-        pokeGame.setNext_square_x(x);
-        pokeGame.setNext_square_y(y);
-        pokeGame.setCurrent_square(new Square(x, y));
+        pokeGame.setNextSquareX(x);
+        pokeGame.setNextSquareY(y);
+        pokeGame.setCurrentSquare(new Square(x, y));
 
         // when
         pokeGame.evaluateMove(move);
@@ -110,21 +110,21 @@ class PokeGameTest {
         String move = "N";
         Square cSqr = new Square(x, y);
         Panel pan = new Panel();
-        pokeGame.setCurrent_panel(pan);
-        pokeGame.setNext_square_x(x);
-        pokeGame.setNext_square_y(y);
-        pokeGame.setCurrent_square(cSqr);
+        pokeGame.setCurrentPanel(pan);
+        pokeGame.setNextSquareX(x);
+        pokeGame.setNextSquareY(y);
+        pokeGame.setCurrentSquare(cSqr);
 
 
         // when
         pokeGame.evaluateMove(move);
 
         // then
-        assertThat(pokeGame.getCurrent_panel().getNeighbouringPanels().size()).isEqualTo(1);
+        assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels().size()).isEqualTo(1);
         assertThat(pokeGame.getGrid().getGridMap().size()).isEqualTo(2);
-        assertThat(pokeGame.getCurrent_panel().getNeighbouringPanels()).contains(entry(Moves.S.ordinal(), pan));
-        assertThat(pokeGame.getCurrent_square()).isEqualTo(new Square(0, Integer.MIN_VALUE));
-        assertThat(pokeGame.getCurrent_panel().getEmpty_squares()).contains(new Square( 0, Integer.MIN_VALUE));
+        assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels()).contains(entry(Moves.S.ordinal(), pan));
+        assertThat(pokeGame.getCurrentSquare()).isEqualTo(new Square(0, Integer.MIN_VALUE));
+        assertThat(pokeGame.getCurrentPanel().getVisitedSquares()).contains(new Square(0, Integer.MIN_VALUE));
 
     }
 
@@ -141,21 +141,21 @@ class PokeGameTest {
         pan1.getNeighbouringPanels().put(0, pan2);
         pan2.getNeighbouringPanels().put(1, pan1);
         pokeGame.getGrid().getGridMap().add(pan2);
-        pokeGame.setCurrent_panel(pan1);
-        pokeGame.setNext_square_x(x);
-        pokeGame.setNext_square_y(y);
-        pokeGame.setCurrent_square(cSqr);
+        pokeGame.setCurrentPanel(pan1);
+        pokeGame.setNextSquareX(x);
+        pokeGame.setNextSquareY(y);
+        pokeGame.setCurrentSquare(cSqr);
 
 
         // when
         pokeGame.evaluateMove(move);
 
         // then
-        assertThat(pokeGame.getCurrent_panel().getNeighbouringPanels().size()).isEqualTo(1);
+        assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels().size()).isEqualTo(1);
         assertThat(pokeGame.getGrid().getGridMap().size()).isEqualTo(2);
-        assertThat(pokeGame.getCurrent_panel().getNeighbouringPanels()).contains(entry(Moves.S.ordinal(), pan1));
-        assertThat(pokeGame.getCurrent_square()).isEqualTo(new Square(0,  Integer.MIN_VALUE));
-        assertThat(pokeGame.getCurrent_panel().getEmpty_squares()).contains(new Square(0,  Integer.MIN_VALUE));
+        assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels()).contains(entry(Moves.S.ordinal(), pan1));
+        assertThat(pokeGame.getCurrentSquare()).isEqualTo(new Square(0, Integer.MIN_VALUE));
+        assertThat(pokeGame.getCurrentPanel().getVisitedSquares()).contains(new Square(0, Integer.MIN_VALUE));
 
     }
 
@@ -171,7 +171,7 @@ class PokeGameTest {
         pokeGame.run();
 
         // then
-        assertThat(pokeGame.getCurrent_panel().getEmpty_squares().size()).isEqualTo(7);
+        assertThat(pokeGame.getCurrentPanel().getVisitedSquares().size()).isEqualTo(7);
     }
 
     @Test
@@ -181,7 +181,7 @@ class PokeGameTest {
         String testInput = "N".repeat(200) + "E".repeat(200);
         ByteArrayInputStream stream = new ByteArrayInputStream(testInput.getBytes());
         System.setIn(stream);
-        pokeGame.setCurrent_square(new Square(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        pokeGame.setCurrentSquare(new Square(Integer.MAX_VALUE, Integer.MAX_VALUE));
 
         // when
         long result = pokeGame.run();
