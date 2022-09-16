@@ -16,33 +16,45 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class responsible for the computation
+ */
 @Getter
 @Setter
 public class PokeGame {
 
     private static final List<String> OPPOSITE_DIR_Y = List.of("N", "S");
     private static final List<String> OPPOSITE_DIR_X = List.of("E", "O");
-    private int next_square_x;
-    private int next_square_y;
+    private int nextSquareX;
+    private int nextSquareY;
     private Grid grid;
-    private Panel current_panel;
-    private Square current_square;
+    private Panel currentPanel;
+    private Square currentSquare;
 
 
     public PokeGame() {
 
-        next_square_x = 0;
-        next_square_y = 0;
+        nextSquareX = 0;
+        nextSquareY = 0;
 
         grid = new Grid();
-        current_panel = new Panel();
-        current_square = new Square(next_square_x, next_square_y);
+        currentPanel = new Panel();
+        currentSquare = new Square(nextSquareX, nextSquareY);
 
-        current_panel.getEmpty_squares().add(current_square);
-        grid.getGridMap().add(current_panel);
+        currentPanel.getVisitedSquares().add(currentSquare);
+        grid.getGridMap().add(currentPanel);
 
     }
 
+    /**
+     * Main method. Prints and returns final result
+     * <p>
+     *     Calls input handler method {@link #convertInput()} to obtain the input from user in a consumable format. That input is consumed
+     *     by {@link #evaluateMove(String)}. The number of visited squares from all panels is summed, printed and returned.
+     * </p>
+     * @return Number of squares visited
+     * @throws IOException
+     */
     public long run() throws IOException {
 
         List<String> movementsSequence = convertInput();
@@ -50,13 +62,18 @@ public class PokeGame {
         movementsSequence.forEach(this::evaluateMove);
         long result = grid.getGridMap()
                           .stream()
-                          .mapToLong(panel -> panel.getEmpty_squares().size())
+                          .mapToLong(panel -> panel.getVisitedSquares().size())
                           .sum();
 
         System.out.println(result);
         return result;
     }
 
+    /**
+     * Asks input from user and converts it to List of Strings
+     * @return List with sequence of movements
+     * @throws IOException
+     */
     List<String> convertInput() throws IOException {
 
         System.out.println("Provide sequence of movements: ");
@@ -66,31 +83,50 @@ public class PokeGame {
         return Arrays.asList(input.split(""));
     }
 
+    /**
+     * Consumes movements, evaluates them, updates the current position and updates the {@code visitedSquares}
+     * <p>
+     *     Checks for cases at the edge of the current panel and calls {@link #updateGrid(String)} in case {@code move}
+     *     will require extending the grid
+     * </p>
+     *
+     * @param move Element from the sequence of movements
+     */
     void evaluateMove(String move) {
 
         List<Moves> edgeCaseMoves = edgeCases();
 
         switch (move) {
-            case "N" -> next_square_y++;
-            case "S" -> next_square_y--;
-            case "E" -> next_square_x++;
-            case "O" -> next_square_x--;
+            case "N" -> nextSquareY++;
+            case "S" -> nextSquareY--;
+            case "E" -> nextSquareX++;
+            case "O" -> nextSquareX--;
             default -> throw new InvalidInputException("Movement not recognized");
         }
 
-        current_square = new Square(next_square_x, next_square_y);
+        currentSquare = new Square(nextSquareX, nextSquareY);
 
         if (edgeCaseMoves.contains(Moves.valueOf(move))) {
             updateGrid(move);
         }
 
-        current_panel.getEmpty_squares().add(current_square);
+        currentPanel.getVisitedSquares().add(currentSquare);
     }
 
+
+    /**
+     * Updates the grid.
+     * <p>
+     *     The method is called when the limit of a panel has been reached. If the current panel does not have an adjacent neighbour
+     *     {@code Panel} in the direction of {@code move}, a new one is created, the {@code neighbouringPanels} are updated, and the current
+     *     panel is updated.
+     * </p>
+     * @param move
+     */
     private void updateGrid(String move) {
 
         Panel neighbourPanel;
-        if (current_panel.getNeighbouringPanels().get(Moves.valueOf(move).ordinal()) == null) {
+        if (currentPanel.getNeighbouringPanels().get(Moves.valueOf(move).ordinal()) == null) {
             neighbourPanel = new Panel();
             grid.getGridMap().add(neighbourPanel);
 
@@ -109,28 +145,34 @@ public class PokeGame {
                                                                .findFirst()
                                                                .get()).ordinal();
 
-            neighbourPanel.getNeighbouringPanels().put(index, current_panel);
-            current_panel.getNeighbouringPanels().put(Moves.valueOf(move).ordinal(), neighbourPanel);
+            neighbourPanel.getNeighbouringPanels().put(index, currentPanel);
+            currentPanel.getNeighbouringPanels().put(Moves.valueOf(move).ordinal(), neighbourPanel);
         } else {
-            neighbourPanel = current_panel.getNeighbouringPanels().get(Moves.valueOf(move).ordinal());
+            neighbourPanel = currentPanel.getNeighbouringPanels().get(Moves.valueOf(move).ordinal());
         }
 
-        current_panel = neighbourPanel;
+        currentPanel = neighbourPanel;
 
     }
 
+
+    /**
+     * Method evaluates if there is the possibility of reaching the limit of the {@code currentPanel} based on the {@code currentSquare}
+     *
+     * @return List with moves that will trigger the need to update the grid
+     */
     List<Moves> edgeCases() {
         List<Moves> edge = new ArrayList<>();
 
-        if (current_square.getY() == Integer.MAX_VALUE) {
+        if (currentSquare.getY() == Integer.MAX_VALUE) {
             edge.add(Moves.N);
-        } else if (current_square.getY() == Integer.MIN_VALUE) {
+        } else if (currentSquare.getY() == Integer.MIN_VALUE) {
             edge.add(Moves.S);
         }
 
-        if (current_square.getX() == Integer.MAX_VALUE) {
+        if (currentSquare.getX() == Integer.MAX_VALUE) {
             edge.add(Moves.E);
-        } else if (current_square.getX() == Integer.MIN_VALUE) {
+        } else if (currentSquare.getX() == Integer.MIN_VALUE) {
             edge.add(Moves.O);
         }
 
