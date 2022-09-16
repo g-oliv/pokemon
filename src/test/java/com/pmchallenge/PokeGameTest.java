@@ -163,7 +163,7 @@ class PokeGameTest {
     void shouldReturnPokemonCount() throws IOException {
 
         // given
-        String testInput = "NNESOOSE";
+        String testInput = "NNSSOOEEE";
         ByteArrayInputStream stream = new ByteArrayInputStream(testInput.getBytes());
         System.setIn(stream);
 
@@ -171,7 +171,7 @@ class PokeGameTest {
         pokeGame.run();
 
         // then
-        assertThat(pokeGame.getCurrentPanel().getVisitedSquares().size()).isEqualTo(7);
+        assertThat(pokeGame.getCurrentPanel().getVisitedSquares().size()).isEqualTo(6);
     }
 
     @Test
