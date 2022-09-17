@@ -49,9 +49,10 @@ public class PokeGame {
     /**
      * Main method. Prints and returns final result
      * <p>
-     *     Calls input handler method {@link #convertInput()} to obtain the input from user in a consumable format. That input is consumed
-     *     by {@link #evaluateMove(String)}. The number of visited squares from all panels is summed, printed and returned.
+     * Calls input handler method {@link #convertInput()} to obtain the input from user in a consumable format. That input is consumed
+     * by {@link #evaluateMove(String)}. The number of visited squares from all panels is summed, printed and returned.
      * </p>
+     *
      * @return Number of squares visited
      * @throws IOException
      */
@@ -71,6 +72,7 @@ public class PokeGame {
 
     /**
      * Asks input from user and converts it to List of Strings
+     *
      * @return List with sequence of movements
      * @throws IOException
      */
@@ -86,8 +88,8 @@ public class PokeGame {
     /**
      * Consumes movements, evaluates them, updates the current position and updates the {@code visitedSquares}
      * <p>
-     *     Checks for cases at the edge of the current panel and calls {@link #updateGrid(String)} in case {@code move}
-     *     will require extending the grid
+     * Checks for cases at the edge of the current panel and calls {@link #updateGrid(String)} in case {@code move}
+     * will require extending the grid
      * </p>
      *
      * @param move Element from the sequence of movements
@@ -117,10 +119,11 @@ public class PokeGame {
     /**
      * Updates the grid.
      * <p>
-     *     The method is called when the limit of a panel has been reached. If the current panel does not have an adjacent neighbour
-     *     {@code Panel} in the direction of {@code move}, a new one is created, the {@code neighbouringPanels} are updated, and the current
-     *     panel is updated.
+     * The method is called when the limit of a panel has been reached. If the current panel does not have an adjacent neighbour
+     * {@code Panel} in the direction of {@code move}, a new one is created, the {@code neighbouringPanels} are updated, and the current
+     * panel is updated.
      * </p>
+     *
      * @param move
      */
     private void updateGrid(String move) {
@@ -131,7 +134,6 @@ public class PokeGame {
             grid.getGridMap().add(neighbourPanel);
 
             // compute index of current panel in new panel's neighbours
-            int index;
             List<String> remainingElementOfOppositeDir;
 
             if (OPPOSITE_DIR_Y.contains(move)) {
@@ -141,9 +143,7 @@ public class PokeGame {
             }
 
             remainingElementOfOppositeDir.remove(move);
-            index = Moves.valueOf(remainingElementOfOppositeDir.stream()
-                                                               .findFirst()
-                                                               .get()).ordinal();
+            int index = Moves.valueOf(remainingElementOfOppositeDir.get(0)).ordinal();
 
             neighbourPanel.getNeighbouringPanels().put(index, currentPanel);
             currentPanel.getNeighbouringPanels().put(Moves.valueOf(move).ordinal(), neighbourPanel);

@@ -25,7 +25,7 @@ class PokeGameTest {
     }
 
     @Test
-    public void shouldConvertInputToList() throws IOException {
+    void shouldConvertInputToList() throws IOException {
 
         // given
         String testInput = "NnEesS";
@@ -55,6 +55,7 @@ class PokeGameTest {
         List<String> result = pokeGame.convertInput();
         System.out.println(result);
         Exception exception = assertThrows(InvalidInputException.class, () -> result.forEach(s -> pokeGame.evaluateMove(s)));
+
         // then
         String expectedMessage = "Movement not recognized";
         String actualMessage = exception.getMessage();
@@ -98,7 +99,7 @@ class PokeGameTest {
         pokeGame.evaluateMove(move);
 
         // then
-        assertThat(pokeGame.edgeCases().size()).isEqualTo(2);
+        assertThat(pokeGame.edgeCases()).hasSize(2);
     }
 
     @Test
@@ -120,8 +121,8 @@ class PokeGameTest {
         pokeGame.evaluateMove(move);
 
         // then
-        assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels().size()).isEqualTo(1);
-        assertThat(pokeGame.getGrid().getGridMap().size()).isEqualTo(2);
+        assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels()).hasSize(1);
+        assertThat(pokeGame.getGrid().getGridMap()).hasSize(2);
         assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels()).contains(entry(Moves.S.ordinal(), pan));
         assertThat(pokeGame.getCurrentSquare()).isEqualTo(new Square(0, Integer.MIN_VALUE));
         assertThat(pokeGame.getCurrentPanel().getVisitedSquares()).contains(new Square(0, Integer.MIN_VALUE));
@@ -151,8 +152,8 @@ class PokeGameTest {
         pokeGame.evaluateMove(move);
 
         // then
-        assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels().size()).isEqualTo(1);
-        assertThat(pokeGame.getGrid().getGridMap().size()).isEqualTo(2);
+        assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels()).hasSize(1);
+        assertThat(pokeGame.getGrid().getGridMap()).hasSize(2);
         assertThat(pokeGame.getCurrentPanel().getNeighbouringPanels()).contains(entry(Moves.S.ordinal(), pan1));
         assertThat(pokeGame.getCurrentSquare()).isEqualTo(new Square(0, Integer.MIN_VALUE));
         assertThat(pokeGame.getCurrentPanel().getVisitedSquares()).contains(new Square(0, Integer.MIN_VALUE));
@@ -171,7 +172,7 @@ class PokeGameTest {
         pokeGame.run();
 
         // then
-        assertThat(pokeGame.getCurrentPanel().getVisitedSquares().size()).isEqualTo(6);
+        assertThat(pokeGame.getCurrentPanel().getVisitedSquares()).hasSize(6);
     }
 
     @Test

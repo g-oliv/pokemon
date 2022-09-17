@@ -11,5 +11,5 @@ import java.util.Set;
 @Getter
 public class Grid {
 
-    private Set<Panel> gridMap = new HashSet<>();
+    private final Set<Panel> gridMap = new HashSet<>();
 }

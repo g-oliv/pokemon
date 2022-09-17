@@ -9,7 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Class represents a 2D map of size N * N, where N = 2 * Integer.MAX_VALUE
+ * Class represents a 2D map
+ * Its size is N * N, where N = 2 * Integer.MAX_VALUE, given that {@code Square} has its x,y coordinates as Integers
  */
 @Getter
 @Setter
